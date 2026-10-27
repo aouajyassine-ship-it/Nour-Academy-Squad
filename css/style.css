@@ -120,3 +120,119 @@
     color: #294D36;
     font-weight: 600;
 }
+:root {
+  /* Backgrounds */
+  --color-bg: #f7f8fa;            /* app background */
+  --color-surface: #ffffff;       /* cards, sidebar, table, inputs */
+  --color-surface-alt: #f9fafb;   /* table header */
+  --color-track: #eef0f4;         /* progress bar track */
+  --color-overlay: #d0d5dd;       /* backdrop behind the dialog */
+ 
+  /* Borders */
+  --color-border: #e4e7ec;
+ 
+  /* Text */
+  --color-text: #101828;          /* headings, key values */
+  --color-text-body: #344054;     /* body text, menu */
+  --color-text-muted: #667085;    /* subtitles, placeholders, table headers */
+  --color-text-on-accent: #ffffff;
+ 
+  /* Accent (primary buttons, active menu item, action links) */
+  --color-accent: #2f5bea;
+  --color-accent-soft: #eef2ff;   /* active menu item background */
+ 
+  /* Danger / errors */
+  --color-danger: #d92d20;        /* delete button */
+  --color-danger-text: #b42318;   /* delete link, error messages */
+  --color-danger-bg: #fef3f2;     /* error banner */
+  --color-danger-border: #fda29b;
+ 
+  /* Status badges */
+  --status-pending-bg: #fef3c7;   /* Pending */
+  --status-pending-text: #92400e;
+  --status-validated-bg: #dbeafe; /* Validated */
+  --status-validated-text: #1e40af;
+  --status-paid-bg: #dcfce7;      /* Paid */
+  --status-paid-text: #166534;
+ 
+  /* Dashboard bars */
+  --bar-pending: #f59e0b;
+  --bar-validated: #3b82f6;
+  --bar-paid: #22c55e;
+  --bar-course: var(--color-accent);
+}
+
+header {
+    background-color: var(--color-text-on-accent);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    padding-inline: 20px;
+}
+.logo {
+    line-height: 5px;
+    color: var(--status-validated-text);
+    margin-left: 20px;
+}
+.logo a {
+    text-decoration: none;
+}
+.logo a:hover {
+    color: var(--color-accent);
+    transition: color 0.3s ease;
+}
+header nav {
+    justify-self: end;
+    display:flex;
+    align-items: center;
+    gap: 30px;
+    font-size: 18px;
+}
+header nav a {
+    text-decoration: none;
+}
+.Lb {
+    background-color: var(--status-validated-text);
+    padding: 6px;
+    border-radius: 5px;
+    color: var(--color-surface-alt);
+}
+.Ll {
+    color: var(--color-text);
+}
+.Ll:hover {
+    color: var(--status-validated-text);
+    transition: color 0.3s ease;
+}
+.Lb:hover {
+    background-color: var(--color-accent);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: var(--color-text-on-accent);
+    background-color: var(--color-text-muted);
+}
+
+main a {
+    color: var(--color-text);
+}
+main a:hover {
+    color: var(--status-validated-text);
+}
+main h2 {
+    color: gold;
+}
+main h4 {
+    color: var(--color-text-on-accent);
+}
+.cr {
+    justify-self: center;
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+.bs {
+    text-align: center;
+}
+
