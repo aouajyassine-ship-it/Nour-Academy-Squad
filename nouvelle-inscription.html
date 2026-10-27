@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouvelle inscription</title>
+    <link rel="stylesheet" href="css/inscription-form.css">
+</head>
+<body>
+   <header></header>
+   <main>
+    <h1>Nouvelle inscription</h1>
+    <form action="">
+        <div class="form-field full-width">
+            <label for="student-name">Nom de l'élève</label>
+            <input type="text" id="student-name" name="studentName" required>
+        </div>
+        <div class="form-field">
+            <label for="level">Niveau</label>
+            <select name="level" id="level" required>
+            <option value="">Choisir un niveau</option>
+            <option value="Primaire">Primaire</option>
+            <option value="Collège">Collège</option>
+            <option value="1re Bac">1re Bac</option>
+            <option value="2e Bac">2e Bac</option>
+            </select>
+        </div>
+        <div class="form-field">
+            <label for="course">Cours</label>
+            <select name="courseId" id="course" required disabled>
+                <option value="">Choisir d'abord un niveau</option>
+            </select>
+        </div>  
+        <div class="form-field">
+            <label for="parent-phone">Téléphone du parent</label>
+            <input type="tel" id="parent-phone" name="parentPhone" placeholder="Ex. : 06 12 34 56 78" required>
+        </div>
+        <div class="form-field">
+            <label for="registration-date">Date d'inscription</label>
+            <input type="date" name="registrationDate" id="registration-date" required>
+        </div>
+        <div class="form-field">
+            <label for="status">Statut</label>
+            <select name="status" id="status" required>
+                <option value="En attente">En attente</option>
+                <option value="Validée">Validée</option>
+                <option value="Payée">Payée</option>
+            </select>
+        </div>
+        <div class="form-actions">
+            <button type="button" id="cancel-button" class="button-secondary">Annuler</button>
+            <button type="submit" class="button-primary">Enregistrer</button>
+         </div>
+    </form>
+    
+
+   </main>
+
+<footer></footer>
+</body>
+</html>
