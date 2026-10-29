@@ -1,26 +1,81 @@
-    <!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Nour Academy-back office</title>
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-        <header>
-        <div class="logo">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+    <title>Nour Academy-back office</title>
+</head>
+<header>
+        <div  class="logo">
+            <a href="index.html">
            <h2>Nour Academy</h1>
            <h5>back office</h5>
+           </a>
         </div>
         <nav class="links" >
-            <a class="Ll" href="#Inscriptions">Inscriptions</a>
-            <a class="Ll" href="#Tableau de bord">Tableau de bord</a>
-            <a class="Lb" href="#Ajouter">+ Ajouter une inscription</a>
+            <a class="Ll" href="index.html">Inscriptions</a>
+            <a class="Ll" href="Tableau-de-bord.html">Tableau de bord</a>
+            <a class="Lb" href="nouvelle-inscription.html">+ Ajouter une inscription</a>
         </nav>
     </header>
 <body>
-   
+    <section id="Inscriptions">
+        <div>
+
+            <input id="recherche" type="search" placeholder="Rechercher par nom ou téléphone">
+
+            <select id="Status">
+                <option value="">Statut : Tous</option>
+                <option value="Validee">Validee</option>
+                <option value="En attente">En attente</option>
+                <option value="Payee">Payee</option>
+            </select>
+
+            <select id="Date-Nom">
+                <option value="">Date (récent)</option>
+                <option value="Validee">Date (ancien)</option>
+                <option value="En attente">Nom (A → Z)</option>
+                <option value="Payee">Nom (Z → A)</option>
+            </select>
+         </div>
+         <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>N dossier</th>
+                        <th>Eleve</th>
+                        <th>Niveau</th>
+                        <th>Cours</th>
+                        <th>Telephone parent</th>
+                        <th>Statut</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr>
+            <td>NOUR-001</td>
+            <td>Sara El Amrani</td>
+            <td>1ère Bac</td>
+            <td>Mathematique</td>
+            <td>0612345678</td>
+            <td>En attente</td>
+            <td>27/10/2026</td>
+            <td>
+                <div class="actions-statut">
+                <button type="button" class="btn-modifier">Modifier</button>
+                <button type="button" class="btn-supprimer">Supprimer</button>
+                </div>
+            </td>
+        </tr>
+            </table>
+         </div>
+
+    </section>
+    
 </body>
-    <footer>
+<footer>
     <main>
         <div class="bs">
              <h2>Nour Academy</h2>
@@ -45,11 +100,3 @@
     </div>
     </footer>
 </html>
-
-
-
-
-
-
-
-
