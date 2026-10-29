@@ -1,22 +1,52 @@
-const inscriptionsInitiales = [
-    {
-        numero: "NOUR-001",
-        eleve: "Sara El Amrani",
-        niveau: "1ère Bac",
-        cours: "Mathématiques",
-        telephone: "0612345678",
-        statut: "En attente",
-        date: "27/10/2026"
-    }
+console.log("script.js khdam");
+console.log("courses:", typeof courses);
+const noms = [
+    "Sara El Amrani",
+    "Adam Bennis",
+    "Imane Alaoui",
+    "Youssef Karim",
+    "Salma Naji",
+    "Hamza Idrissi",
+    "Aya Mansouri",
+    "Anas Tazi",
+    "Meryem Fassi",
+    "Omar Chraibi",
+    "Nour Benali",
+    "Mehdi Saidi",
+    "Lina Haddad",
+    "Rayan Amine",
+    "Hiba Othmani",
+    "Ilyas Boulahya",
+    "Malak Rami",
+    "Amine Ziani",
+    "Ghita Saad",
+    "Bilal Azzouzi"
 ];
-// Charger les inscriptions
+
+const coursDisponibles = courses.filter(function (cours) {
+    return cours.places > 0;
+});
+const inscriptionsInitiales = [];
+for (let i = 0; i < 20; i++) {
+    const cours = coursDisponibles[i % coursDisponibles.length];
+    inscriptionsInitiales.push({
+        numero: "NOUR-" + String(i + 1).padStart(3, "0"),
+        eleve: noms[i],
+        niveau: cours.level,
+        cours: cours.title,
+        telephone: "06000000" + String(i + 1).padStart(2, "0"),
+        statut: ["En attente", "Validée", "Payée"][i % 3],
+        date: "2026-10-" + String((i % 28) + 1).padStart(2, "0")
+    });
+}
+// Charger les inscriptions sauvegardées
 let inscriptions = JSON.parse(
     localStorage.getItem("inscriptions")
 );
-// Initialiser le stockage la première fois
-if (inscriptions === null) {
-    inscriptions = inscriptionsInitiales;
 
+// Première initialisation
+if (inscriptions === null || inscriptions.length === 0) {
+    inscriptions = inscriptionsInitiales;
     localStorage.setItem(
         "inscriptions",
         JSON.stringify(inscriptions)
@@ -40,7 +70,6 @@ function afficherInscriptions() {
                     <button onclick="modifierInscription(${index})">
                         Modifier
                     </button>
-
                     <button onclick="supprimerInscription(${index})">
                         Supprimer
                     </button>
@@ -49,19 +78,18 @@ function afficherInscriptions() {
         `;
     });
 }
-
-// Enregistrer les modifications
+// Sauvegarder les inscriptions
 function sauvegarderInscriptions() {
     localStorage.setItem(
         "inscriptions",
         JSON.stringify(inscriptions)
     );
 }
-
 // Supprimer une inscription
 function supprimerInscription(index) {
-    const confirmation = confirm("Supprimer cette inscription ?");
-
+    const confirmation = confirm(
+        "Supprimer cette inscription ?"
+    );
     if (confirmation) {
         inscriptions.splice(index, 1);
 
@@ -69,7 +97,6 @@ function supprimerInscription(index) {
         afficherInscriptions();
     }
 }
-
 // Modifier une inscription
 function modifierInscription(index) {
     const nouveauNom = prompt(
@@ -78,10 +105,9 @@ function modifierInscription(index) {
     );
     if (nouveauNom !== null && nouveauNom.trim() !== "") {
         inscriptions[index].eleve = nouveauNom.trim();
+
         sauvegarderInscriptions();
         afficherInscriptions();
     }
 }
-
 afficherInscriptions();
-
