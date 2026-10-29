@@ -84,3 +84,4 @@ function modifierInscription(index) {
 }
 
 afficherInscriptions();
+
