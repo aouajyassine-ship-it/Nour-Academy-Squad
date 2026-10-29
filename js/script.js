@@ -1,3 +1,7 @@
+const searchInput = document.querySelector("#recherche");
+const statusFilter = document.querySelector("#Status");
+const sortSelect = document.querySelector("#Date-Nom");
+
 const inscriptionsInitiales = [
     {
         numero: "NOUR-001",
@@ -26,7 +30,9 @@ if (inscriptions === null) {
 function afficherInscriptions() {
     const tableau = document.querySelector("#liste-inscriptions");
     tableau.innerHTML = "";
-    inscriptions.forEach(function (inscription, index) {
+    const resultats = rechercherInscriptions(inscriptions, searchInput.value);
+    resultats.forEach(function (inscription) {
+    const index = inscriptions.indexOf(inscription);
         tableau.innerHTML += `
             <tr>
                 <td>${inscription.numero}</td>
@@ -83,4 +89,17 @@ function modifierInscription(index) {
     }
 }
 
+function rechercherInscriptions(liste, recherche) {
+    const texte = recherche.trim().toLowerCase();
+
+    return liste.filter(function (inscription) {
+        return inscription.eleve.toLowerCase().includes(texte)
+            || inscription.telephone.includes(texte);
+    });
+}
+
 afficherInscriptions();
+
+searchInput.addEventListener("input", function () {
+    afficherInscriptions();
+});
