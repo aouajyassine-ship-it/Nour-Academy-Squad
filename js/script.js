@@ -52,11 +52,47 @@ if (inscriptions === null || inscriptions.length === 0) {
         JSON.stringify(inscriptions)
     );
 }
+const filtreStatut = document.querySelector("#Status");
+const filtreTri = document.querySelector("#Date-Nom");
+
+function filtrerEtTrierInscriptions() {
+    const statutChoisi = filtreStatut.value;
+    const triChoisi = filtreTri.value;
+
+    const resultat = inscriptions.filter(function (inscription) {
+        if (statutChoisi === "") {
+            return true;
+        }
+        return inscription.statut === statutChoisi;
+    });
+
+    if (triChoisi === "date-recent") {
+        resultat.sort(function (a, b) {
+            return new Date(b.date) - new Date(a.date);
+        });
+    } else if (triChoisi === "date-ancien") {
+        resultat.sort(function (a, b) {
+            return new Date(a.date) - new Date(b.date);
+        });
+    } else if (triChoisi === "nom-az") {
+        resultat.sort(function (a, b) {
+            return a.eleve.localeCompare(b.eleve);
+        });
+    } else if (triChoisi === "nom-za") {
+        resultat.sort(function (a, b) {
+            return b.eleve.localeCompare(a.eleve);
+        });
+    }
+
+    return resultat;
+}
+
 // Afficher les inscriptions
 function afficherInscriptions() {
     const tableau = document.querySelector("#liste-inscriptions");
     tableau.innerHTML = "";
-    inscriptions.forEach(function (inscription, index) {
+    const inscriptionsAffichees = filtrerEtTrierInscriptions();
+    inscriptionsAffichees.forEach(function (inscription) {
         tableau.innerHTML += `
             <tr>
                 <td>${inscription.numero}</td>
@@ -67,10 +103,10 @@ function afficherInscriptions() {
                 <td>${inscription.statut}</td>
                 <td>${inscription.date}</td>
                 <td>
-                    <button onclick="modifierInscription(${index})">
+                    <button onclick="modifierInscription('${inscription.numero}')">
                         Modifier
                     </button>
-                    <button onclick="supprimerInscription(${index})">
+                    <button onclick="supprimerInscription('${inscription.numero}')">
                         Supprimer
                     </button>
                 </td>
@@ -85,8 +121,21 @@ function sauvegarderInscriptions() {
         JSON.stringify(inscriptions)
     );
 }
+function trouverIndexInscription(numero) {
+    let indexTrouve = -1;
+    inscriptions.forEach(function (inscription, index) {
+        if (inscription.numero === numero) {
+            indexTrouve = index;
+        }
+    });
+    return indexTrouve;
+}
 // Supprimer une inscription
-function supprimerInscription(index) {
+function supprimerInscription(numero) {
+    const index = trouverIndexInscription(numero);
+    if (index === -1) {
+        return;
+    }
     const confirmation = confirm(
         "Supprimer cette inscription ?"
     );
@@ -98,7 +147,11 @@ function supprimerInscription(index) {
     }
 }
 // Modifier une inscription
-function modifierInscription(index) {
+function modifierInscription(numero) {
+    const index = trouverIndexInscription(numero);
+    if (index === -1) {
+        return;
+    }
     const nouveauNom = prompt(
         "Nom de l'élève :",
         inscriptions[index].eleve
@@ -110,4 +163,7 @@ function modifierInscription(index) {
         afficherInscriptions();
     }
 }
+filtreStatut.addEventListener("change", afficherInscriptions);
+filtreTri.addEventListener("change", afficherInscriptions);
+
 afficherInscriptions();
