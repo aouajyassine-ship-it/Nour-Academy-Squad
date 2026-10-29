@@ -345,4 +345,29 @@ main h4 {
     background-color: var(--color-overlay);
     border-radius: 30px;
 }
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+.progress-fill.attente {
+    background-color: #f59e0b;
+}
+
+.progress-fill.validee {
+    background-color: #3b82f6;
+}
+
+.progress-fill.payee {
+    background-color: #22c55e;
+}
+
+.progress-fill.cours-math,
+.progress-fill.francais,
+.progress-fill.anglais,
+.progress-fill.pc {
+    background-color: #2f5bea;
+}
 

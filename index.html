@@ -22,7 +22,6 @@
 <body>
     <section id="Inscriptions">
         <div>
-
             <input id="recherche" type="search" placeholder="Rechercher par nom ou téléphone">
 
             <select id="Status">
@@ -53,14 +52,28 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                  <tbody id="liste-inscriptions"></tbody>
+                <tbody>
+                  <tr>
+            <td>NOUR-001</td>
+            <td>Sara El Amrani</td>
+            <td>1ère Bac</td>
+            <td>Mathematique</td>
+            <td>0612345678</td>
+            <td>En attente</td>
+            <td>27/10/2026</td>
+            <td>
+                <div class="actions-statut">
+                <button type="button" class="btn-modifier">Modifier</button>
+                <button type="button" class="btn-supprimer">Supprimer</button>
+                </div>
+            </td>
+        </tr>
             </table>
          </div>
 
     </section>
-    <script src="js/script.js"></script>
-</body>
-<footer>
+ 
+     <footer>
     <main>
         <div class="bs">
              <h2>Nour Academy</h2>
@@ -84,4 +97,8 @@
         <p>© 2026 Nour Academy. Tous droits réservés</p>
     </div>
     </footer>
+    <script src="js/courses.js"></script>
+     <script src="js/script.js"></script>
+</body>
+
 </html>
