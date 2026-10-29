@@ -30,7 +30,9 @@ if (inscriptions === null) {
 function afficherInscriptions() {
     const tableau = document.querySelector("#liste-inscriptions");
     tableau.innerHTML = "";
-    const resultats = rechercherInscriptions(inscriptions, searchInput.value);
+    const resultatsRecherche = rechercherInscriptions(inscriptions, searchInput.value);
+    const resultatsStatut = filtrerParStatut(resultatsRecherche, statusFilter.value);
+const resultats = trierInscriptions(resultatsStatut, sortSelect.value);
     resultats.forEach(function (inscription) {
     const index = inscriptions.indexOf(inscription);
         tableau.innerHTML += `
@@ -101,5 +103,58 @@ function rechercherInscriptions(liste, recherche) {
 afficherInscriptions();
 
 searchInput.addEventListener("input", function () {
+    afficherInscriptions();
+});
+
+function filtrerParStatut(liste, statut) {
+    return liste.filter(function (inscription) {
+        return statut === "" || inscription.statut === statut;
+    });
+}
+
+statusFilter.addEventListener("change", function () {
+    afficherInscriptions();
+});
+
+function convertirDate(date) {
+    if (date.includes("/")) {
+        const [jour, mois, annee] = date.split("/");
+        return Date.UTC(Number(annee), Number(mois) - 1, Number(jour));
+    }
+
+    const [annee, mois, jour] = date.split("-");
+    return Date.UTC(Number(annee), Number(mois) - 1, Number(jour));
+}
+
+function trierInscriptions(liste, tri) {
+    const copie = [...liste];
+
+    copie.sort(function (a, b) {
+        if (tri === "date-desc") {
+            return convertirDate(b.date) - convertirDate(a.date);
+        }
+
+        if (tri === "date-asc") {
+            return convertirDate(a.date) - convertirDate(b.date);
+        }
+
+        if (tri === "name-asc") {
+            return a.eleve.localeCompare(b.eleve, "fr", {
+                sensitivity: "base"
+            });
+        }
+
+        if (tri === "name-desc") {
+            return b.eleve.localeCompare(a.eleve, "fr", {
+                sensitivity: "base"
+            });
+        }
+
+        return 0;
+    });
+
+    return copie;
+}
+sortSelect.addEventListener("change", function () {
     afficherInscriptions();
 });
