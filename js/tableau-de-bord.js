@@ -69,7 +69,7 @@ document.getElementById("total-recettes").textContent =
 
 
 const matieres = [
-    { nom: "Mathématiques", id: "total-math", classe: "cours-math" },
+    { nom: "Mathématiques", id: "total-math", classe: "math" },
     { nom: "Français", id: "total-francais", classe: "francais" },
     { nom: "Anglais", id: "total-anglais", classe: "anglais" },
     { nom: "Physique-chimie", id: "total-pc", classe: "pc" }
@@ -81,7 +81,11 @@ matieres.forEach(function(matiere) {
     }).length;
 
    
-    const capacite = 15;
+    const nombreGroupes = courses.filter(function(cours) {
+    return cours.title === matiere.nom;
+}).length;
+
+const capacite = nombreGroupes * 15;
 
     const pourcentage = Math.min(
         Math.round(calculerPourcentage(nombreInscrits, capacite)),

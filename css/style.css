@@ -359,9 +359,22 @@ main h4 {
     background-color: #22c55e;
 }
 
-.progress-fill.cours-math,
+.progress-fill.math,
 .progress-fill.francais,
 .progress-fill.anglais,
 .progress-fill.pc {
     background-color: #2f5bea;
 }
+.m-button {
+    background-color: #22c55e;
+    color: var(--color-text-on-accent);
+    padding: 5px;
+    border-radius: 5px;
+}
+.s-button {
+    background-color: red;
+    color: var(--color-text-on-accent);
+    padding: 5px;
+    border-radius: 5px;
+}
+

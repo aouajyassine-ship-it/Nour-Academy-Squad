@@ -102,11 +102,11 @@ function afficherInscriptions() {
                 <td>${inscription.telephone}</td>
                 <td>${inscription.statut}</td>
                 <td>${inscription.date}</td>
-                <td>
-                    <button onclick="modifierInscription('${inscription.numero}')">
+                <td class = "m-s-button">
+                    <button class = "m-button" onclick="modifierInscription('${inscription.numero}')">
                         Modifier
                     </button>
-                    <button onclick="supprimerInscription('${inscription.numero}')">
+                    <button class = "s-button" onclick="supprimerInscription('${inscription.numero}')">
                         Supprimer
                     </button>
                 </td>
