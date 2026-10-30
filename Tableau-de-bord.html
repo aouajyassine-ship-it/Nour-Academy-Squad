@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+    <title>Nour Academy-back office</title>
+</head>
+
+    <body class="b-boody">
+        <header>
+        <div  class="logo">
+            <a href="index.html">
+           <h2>Nour Academy</h2>
+           <h5>back office</h5>
+           </a>
+        </div>
+        <nav class="links" >
+            <a class="Ll" href="index.html">Inscriptions</a>
+            <a class="Ll" href="#Tableau de bord">Tableau de bord</a>
+            <a class="Lb" href="nouvelle-inscription.html">+ Ajouter une inscription</a>
+        </nav>
+    </header>
+        <div class="bord-titre">
+            <h1>Tableau de bord</h1>
+            <p>Chiffres clés des inscriptions</p>
+            </div>
+        <div class="grid">
+            <div>
+            <p class="bt">Inscrits</p>
+            <h2 id="total-inscrits">0</h2>
+            </div>
+            <div>
+                <p class="bt">Recettes encaissées</p>
+                <h2 id="total-recettes">0 MAD</h2>
+            </div>
+        </div>
+<section class="repartition">
+    <h2>Répartition par statut</h2>
+    <div class="statut">
+        <p>En attente</p>
+
+        <div class="progress-bar">
+            <div class="progress-fill attente"></div>
+        </div>
+
+        <span id="total-attente">0</span>
+    </div>
+
+    <div class="statut">
+        <p>Validée</p>
+
+        <div class="progress-bar">
+            <div class="progress-fill validee"></div>
+        </div>
+
+        <span id="total-validee">0</span>
+    </div>
+
+    <div class="statut">
+        <p>Payée</p>
+
+        <div class="progress-bar">
+            <div class="progress-fill payee"></div>
+        </div>
+
+        <span id="total-payee">0</span>
+    </div>
+</section>
+<section class="repartition">
+    <h2>Taux de remplissage par cours</h2>
+    <div class="statut">
+       <p>Math</p>
+
+       <div class="progress-bar">
+        <div class="progress-fill math"></div>
+       </div>
+
+       <span id="total-math">0%</span>
+
+
+    </div>
+
+        <div class="statut">
+       <p>Français</p>
+
+       <div class="progress-bar">
+        <div class="progress-fill francais"></div>
+       </div>
+
+       <span id="total-francais">0%</span>
+
+
+    </div>
+
+        <div class="statut">
+       <p>Anglais</p>
+
+       <div class="progress-bar">
+        <div class="progress-fill anglais"></div>
+       </div>
+
+       <span id="total-anglais">0%</span>
+
+
+    </div>
+
+        <div class="statut">
+       <p>PC</p>
+
+       <div class="progress-bar">
+        <div class="progress-fill pc"></div>
+       </div>
+
+       <span id="total-pc">0%</span>
+    </div>
+    
+
+</section>
+<script src="js/courses.js"></script>
+<script src="js/tableau-de-bord.js"></script>
+    </body>
+    </html>
