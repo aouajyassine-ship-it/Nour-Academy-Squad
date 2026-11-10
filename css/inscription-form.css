@@ -1,6 +1,4 @@
 
-
-
 *{
     box-sizing: border-box;
 }
@@ -76,4 +74,63 @@ button {
 
 .full-width, .form-actions {
     grid-column: 1 / -1;
+}
+
+.form-field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #344054;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #3155f5;
+    box-shadow: 0 0 0 3px rgba(49, 85, 245, 0.12);
+}
+
+select:disabled {
+    background-color: #f9fafb;
+    color: #667085;
+    cursor: not-allowed;
+}
+
+.input-invalid,
+.input-invalid:focus {
+    border-color: #d92d20;
+    box-shadow: 0 0 0 3px rgba(217, 45, 32, 0.12);
+}
+
+.field-error {
+    margin: 0;
+    color: #b42318;
+    font-size: 12px;
+}
+
+.field-error:empty {
+    display: none;
+}
+
+.form-message {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.form-message:empty {
+    display: none;
+}
+
+.form-message.success {
+    color: #166534;
+    background-color: #dcfce7;
+    border: 1px solid #86efac;
+}
+
+.form-message.error {
+    color: #b42318;
+    background-color: #fef3f2;
+    border: 1px solid #fda29b;
 }

@@ -1,64 +1,200 @@
+import { courses } from "./courses.js";
+import {
+    afficherErreurChamp,
+    effacerErreurChamp,
+    normaliserTelephone,
+    validerNom,
+    validerTelephone
+} from "./validation.js";
+import {
+    chargerInscriptions,
+    genererNumero,
+    sauvegarderInscriptions,
+    verifierInscription
+} from "./inscriptions.js";
+
 const niveauSelect = document.querySelector("#level");
 const coursSelect = document.querySelector("#course");
-niveauSelect.addEventListener("change", function () {
-    const niveauChoisi = niveauSelect.value;
-    coursSelect.innerHTML =
-        '<option value="">Choisir un cours</option>';
-    if (niveauChoisi === "") {
+const nomInput = document.querySelector("#student-name");
+const telephoneInput = document.querySelector("#parent-phone");
+const dateInput = document.querySelector("#registration-date");
+const statutSelect = document.querySelector("#status");
+const formulaire = document.querySelector("#form-inscription");
+const messageFormulaire = document.querySelector("#form-message");
+const boutonAnnuler = document.querySelector("#cancel-button");
+
+function remplirCours(niveau) {
+    coursSelect.innerHTML = '<option value="">Choisir un cours</option>';
+
+    if (niveau === "") {
+        coursSelect.innerHTML = '<option value="">Choisir d\'abord un niveau</option>';
         coursSelect.disabled = true;
         return;
     }
-    
+
     const coursFiltres = courses.filter(function (cours) {
-        return cours.level === niveauChoisi;
+        return cours.level === niveau && cours.places > 0;
     });
 
     coursFiltres.forEach(function (cours) {
-        if (cours.places > 0) {
-            const option = document.createElement("option");
-            option.value = cours.id;
-            option.textContent = cours.title;
-            coursSelect.appendChild(option);
-        }
+        const option = document.createElement("option");
+        option.value = cours.id;
+        option.textContent = cours.title;
+        coursSelect.appendChild(option);
     });
-    coursSelect.disabled = coursSelect.options.length <= 1;
+
+    if (coursFiltres.length === 0) {
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "Aucun cours disponible";
+        coursSelect.appendChild(option);
+    }
+
+    coursSelect.disabled = coursFiltres.length === 0;
+}
+
+function afficherMessage(message, type = "") {
+    messageFormulaire.textContent = message;
+    messageFormulaire.className = message
+        ? `form-message ${type}`
+        : "form-message";
+    messageFormulaire.setAttribute("role", type === "error" ? "alert" : "status");
+}
+
+function effacerMessageErreur() {
+    if (messageFormulaire.classList.contains("error")) {
+        afficherMessage("");
+    }
+}
+
+function effacerErreurs() {
+    formulaire.querySelectorAll(".field-error").forEach(function (element) {
+        element.textContent = "";
+    });
+
+    formulaire.querySelectorAll("input, select").forEach(function (champ) {
+        champ.classList.remove("input-invalid");
+        champ.removeAttribute("aria-invalid");
+    });
+}
+
+function reinitialiserFormulaire() {
+    formulaire.reset();
+    coursSelect.innerHTML = '<option value="">Choisir d\'abord un niveau</option>';
+    coursSelect.disabled = true;
+    effacerErreurs();
+    afficherMessage("");
+}
+
+niveauSelect.addEventListener("change", function () {
+    remplirCours(niveauSelect.value);
+    effacerErreurChamp(coursSelect);
+    effacerMessageErreur();
 });
 
-const formulaire = document.querySelector("#form-inscription");
+coursSelect.addEventListener("change", function () {
+    effacerErreurChamp(coursSelect);
+});
+
+nomInput.addEventListener("input", function () {
+    effacerErreurChamp(nomInput);
+    effacerMessageErreur();
+});
+
+telephoneInput.addEventListener("input", function () {
+    effacerErreurChamp(telephoneInput);
+    effacerMessageErreur();
+});
+
+boutonAnnuler.addEventListener("click", function () {
+    reinitialiserFormulaire();
+});
+
 formulaire.addEventListener("submit", function (event) {
-event.preventDefault();
-    // Récupérer les données du formulaire
-    const eleve = document.querySelector("#student-name").value;
-    const niveau = document.querySelector("#level").value;
-    const coursSelect = document.querySelector("#course");
-    const cours = coursSelect.options[coursSelect.selectedIndex].text;
-    const telephone = document.querySelector("#parent-phone").value;
-    const date = document.querySelector("#registration-date").value;
-    const statut = document.querySelector("#status").value;
-    // Récupérer les inscriptions enregistrées
-    let inscriptions = JSON.parse(
-        localStorage.getItem("inscriptions")
-    );
-    if (inscriptions === null) {
-        inscriptions = [];
+    event.preventDefault();
+
+    const eleve = nomInput.value.trim().replace(/\s+/g, " ");
+    const telephone = normaliserTelephone(telephoneInput.value);
+    const niveau = niveauSelect.value;
+    const coursSelectionne = coursSelect.options[coursSelect.selectedIndex];
+    const cours = coursSelectionne && coursSelectionne.value !== ""
+        ? coursSelectionne.textContent
+        : "";
+    const date = dateInput.value;
+    const statut = statutSelect.value;
+
+    effacerErreurs();
+
+    let formulaireValide = true;
+
+    const resultatNom = validerNom(eleve);
+
+    if (!resultatNom.valide) {
+        afficherErreurChamp(nomInput, resultatNom.message);
+        formulaireValide = false;
     }
-    // Créer une nouvelle inscription
+
+    const resultatTelephone = validerTelephone(telephone);
+
+    if (!resultatTelephone.valide) {
+        afficherErreurChamp(telephoneInput, resultatTelephone.message);
+        formulaireValide = false;
+    }
+
+    if (niveau === "") {
+        afficherErreurChamp(coursSelect, "Choisissez d'abord un niveau.");
+        formulaireValide = false;
+    } else if (coursSelect.disabled) {
+        afficherErreurChamp(coursSelect, "Aucun cours n'est disponible pour ce niveau.");
+        formulaireValide = false;
+    } else if (!cours) {
+        afficherErreurChamp(coursSelect, "Choisissez un cours.");
+        formulaireValide = false;
+    }
+
+    if (!niveau || !date || !statut) {
+        afficherMessage("Veuillez remplir tous les champs obligatoires.", "error");
+        formulaireValide = false;
+    }
+
+    if (!formulaireValide) {
+        const premierChampInvalide = formulaire.querySelector(".input-invalid");
+
+        if (premierChampInvalide) {
+            premierChampInvalide.focus();
+        }
+
+        return;
+    }
+
+    const inscriptions = chargerInscriptions();
+    const erreur = verifierInscription(inscriptions, {
+        eleve: eleve,
+        cours: cours,
+        niveau: niveau
+    });
+
+    if (erreur) {
+        afficherErreurChamp(coursSelect, erreur);
+        coursSelect.focus();
+        return;
+    }
+
     const nouvelleInscription = {
-        numero: "NOUR-" + Date.now(),
+        numero: genererNumero(),
         eleve: eleve,
         niveau: niveau,
         cours: cours,
-        telephone: telephone,
+        telephone: resultatTelephone.valeur,
         statut: statut,
         date: date
     };
-    // Ajouter l'inscription à la liste
+
     inscriptions.push(nouvelleInscription);
-    // Sauvegarder la liste
-    localStorage.setItem(
-        "inscriptions",
-        JSON.stringify(inscriptions)
-    );
-    alert("Inscription enregistrée avec succès !");
-    formulaire.reset();
+    sauvegarderInscriptions(inscriptions);
+
+    reinitialiserFormulaire();
+    afficherMessage("Inscription enregistrée avec succès !", "success");
 });
+
+remplirCours("");

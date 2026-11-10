@@ -1,31 +1,26 @@
+import { courses } from "./courses.js";
+import { CAPACITE_MAX, chargerInscriptions } from "./inscriptions.js";
 
-const inscriptions = JSON.parse(
-    localStorage.getItem("inscriptions")
-) || [];
-
+const inscriptions = chargerInscriptions();
 
 const inscrits = document.getElementById("total-inscrits");
 inscrits.textContent = inscriptions.length;
 
-
-const attente = inscriptions.filter(function(inscription) {
+const attente = inscriptions.filter(function (inscription) {
     return inscription.statut === "En attente";
 });
 
-const validee = inscriptions.filter(function(inscription) {
+const validee = inscriptions.filter(function (inscription) {
     return ["Validée", "Validee"].includes(inscription.statut);
 });
 
-const payee = inscriptions.filter(function(inscription) {
+const payee = inscriptions.filter(function (inscription) {
     return ["Payée", "Payee"].includes(inscription.statut);
 });
-
 
 document.getElementById("total-attente").textContent = attente.length;
 document.getElementById("total-validee").textContent = validee.length;
 document.getElementById("total-payee").textContent = payee.length;
-
-
 
 const total = inscriptions.length;
 
@@ -46,42 +41,34 @@ document.querySelector(".progress-fill.validee").style.width =
 document.querySelector(".progress-fill.payee").style.width =
     calculerPourcentage(payee.length, total) + "%";
 
-
-
-
 let recettes = 0;
 
-if (typeof courses !== "undefined") {
-    payee.forEach(function(inscription) {
-        const coursTrouve = courses.find(function(cours) {
-            return cours.title === inscription.cours &&
-                   cours.level === inscription.niveau;
-        });
-
-        if (coursTrouve) {
-            recettes += coursTrouve.price;
-        }
+payee.forEach(function (inscription) {
+    const coursTrouve = courses.find(function (cours) {
+        return cours.title === inscription.cours &&
+            cours.level === inscription.niveau;
     });
-}
 
-document.getElementById("total-recettes").textContent =
-    recettes + " MAD";
+    if (coursTrouve) {
+        recettes += coursTrouve.price;
+    }
+});
 
+document.getElementById("total-recettes").textContent = recettes + " MAD";
 
 const matieres = [
-    { nom: "Mathématiques", id: "total-math", classe: "cours-math" },
+    { nom: "Mathématiques", id: "total-math", classe: "math" },
     { nom: "Français", id: "total-francais", classe: "francais" },
     { nom: "Anglais", id: "total-anglais", classe: "anglais" },
     { nom: "Physique-chimie", id: "total-pc", classe: "pc" }
 ];
 
-matieres.forEach(function(matiere) {
-    const nombreInscrits = inscriptions.filter(function(inscription) {
+matieres.forEach(function (matiere) {
+    const nombreInscrits = inscriptions.filter(function (inscription) {
         return inscription.cours === matiere.nom;
     }).length;
 
-   
-    const capacite = 15;
+    const capacite = CAPACITE_MAX;
 
     const pourcentage = Math.min(
         Math.round(calculerPourcentage(nombreInscrits, capacite)),

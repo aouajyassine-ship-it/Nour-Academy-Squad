@@ -10,10 +10,11 @@
    <header></header>
    <main>
     <h1>Nouvelle inscription</h1>
-    <form id="form-inscription">
+    <form id="form-inscription" novalidate>
         <div class="form-field full-width">
-            <label for="student-name">Nom de l'élève</label>
-            <input type="text" id="student-name" name="studentName" required>
+            <label for="student-name">Nom et prénom de l'élève</label>
+            <input type="text" id="student-name" name="studentName" maxlength="60" autocomplete="name" required aria-describedby="student-name-error">
+            <p class="field-error" id="student-name-error" role="alert"></p>
         </div>
         <div class="form-field">
             <label for="level">Niveau</label>
@@ -27,13 +28,15 @@
         </div>
         <div class="form-field">
             <label for="course">Cours</label>
-            <select name="courseId" id="course" required disabled>
+            <select name="courseId" id="course" required disabled aria-describedby="course-error">
                 <option value="">Choisir d'abord un niveau</option>
             </select>
+            <p class="field-error" id="course-error" role="alert"></p>
         </div>  
         <div class="form-field">
             <label for="parent-phone">Téléphone du parent</label>
-            <input type="tel" id="parent-phone" name="parentPhone" placeholder="Ex. : 06 12 34 56 78" required>
+            <input type="tel" id="parent-phone" name="parentPhone" placeholder="Ex. : 06 12 34 56 78" inputmode="tel" autocomplete="tel" required aria-describedby="parent-phone-error">
+            <p class="field-error" id="parent-phone-error" role="alert"></p>
         </div>
         <div class="form-field">
             <label for="registration-date">Date d'inscription</label>
@@ -47,6 +50,8 @@
                 <option value="Payée">Payée</option>
             </select>
         </div>
+        <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+
         <div class="form-actions">
             <button type="button" id="cancel-button" class="button-secondary">Annuler</button>
             <button type="submit" class="button-primary">Enregistrer</button>
@@ -57,7 +62,6 @@
    </main>
 
 <footer></footer>
-<script src="js/courses.js"></script>
-<script src="js/nouvelle-inscription.js"></script>
+<script type="module" src="js/nouvelle-inscription.js"></script>
 </body>
 </html>
